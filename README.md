@@ -28,7 +28,7 @@ Este projeto usa um **proxy** para conectar com o backend. A URL do backend é c
 ```json
 {
   "/api": {
-    "target": "http://localhost:5001",  // ← ALTERE AQUI
+    "target": "http://localhost:5001", 
     "secure": false
   }
 }
