@@ -14,9 +14,20 @@ h1 { text-align: center; margin-bottom: 20px; }
 .search-box button:disabled { background: #ccc; cursor: not-allowed; }
 
 /* Paginação */
-.pagination { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #f8f9fa; margin: 15px 0; border-radius: 4px; }
-.page-controls button { padding: 5px 15px; margin: 0 5px; border: 1px solid #ddd; background: white; cursor: pointer; }
-.page-controls button:disabled { color: #ccc; cursor: not-allowed; }
+.pagination { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #f8f9fa; margin: 20px 0; border-radius: 8px; border: 1px solid #e9ecef; flex-wrap: wrap; }
+.page-controls { display: flex; align-items: center; gap: 12px; }
+.page-controls button { padding: 8px 16px; border: 1px solid #dee2e6; background: white; color: #495057; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 14px; transition: all 0.2s; min-width: 40px; display: flex; align-items: center; justify-content: center; }
+.page-controls button:hover:not(:disabled) { background: #007bff; color: white; border-color: #007bff; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2); }
+.page-controls button:disabled { opacity: 0.5; cursor: not-allowed; background: #f8f9fa; }
+.page-controls span { font-size: 14px; color: #495057; font-weight: 500; min-width: 120px; text-align: center; }
+.pagination > div:last-child { display: flex; align-items: center; gap: 10px; }
+.pagination label { font-size: 14px; color: #495057; font-weight: 500; }
+.pagination select { padding: 8px 12px; border: 1px solid #ced4da; border-radius: 6px; background: white; color: #495057; font-size: 14px; cursor: pointer; transition: border-color 0.2s; min-width: 80px; }
+.pagination select:hover { border-color: #007bff; }
+.pagination select:focus { outline: none; border-color: #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1); }
+
+/* Informação de resultados */
+.results-info { font-size: 13px; color: #6c757d; background: #e9ecef; padding: 6px 12px; border-radius: 4px; margin: 10px 0; text-align: center; font-weight: 500; width: 100%; order: -1; }
 
 /* Lista de Repositórios */
 .repo-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
@@ -27,7 +38,7 @@ h1 { text-align: center; margin-bottom: 20px; }
 .fav-btn { padding: 6px 12px; border: 1px solid #ddd; background: #fafbfc; cursor: pointer; border-radius: 4px; font-size: 13px; }
 .fav-btn.favorite { border-color: #0366d6; color: #0366d6; background: #f1f8ff; }
 .fav-btn.remove { color: #cb2431; border-color: #cb2431; background: #ffeef0; }
-.repo-desc { margin: 10px 0; color: #586069; line-height: 1.4; }
+.repo-desc { margin: 10px 0; color: #586069; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; /* Número de linhas a mostrar */ -webkit-box-orient: vertical; max-height: 4.2em; /* Aproximadamente 3 linhas (1.4 * 3) */ }
 .repo-info { display: flex; gap: 15px; color: #586069; font-size: 13px; margin-top: 10px; }
 
 /* Estados */
@@ -35,7 +46,7 @@ h1 { text-align: center; margin-bottom: 20px; }
 .loading { background: #e7f3ff; color: #0066cc; }
 .empty { background: #f6f8fa; color: #6a737d; }
 .message { background: #dcffe4; color: #155724; }
-.message.error { background: #ffdce0; color: #86181d; }
+.error-message { background: #ffebee; color: #c62828; padding: 10px; border-radius: 4px; margin: 10px 0; text-align: center; }
 
 /* Rank */
 .rank { position: absolute; top: 15px; left: 15px; color: #666; font-weight: bold; font-size: 14px; }
@@ -51,10 +62,9 @@ h1 { text-align: center; margin-bottom: 20px; }
   .tabs { flex-direction: column; }
   .tabs button { width: 100%; text-align: left; border-bottom: 1px solid #eee; }
   .search-box { flex-direction: column; }
-  .pagination { flex-direction: column; gap: 10px; text-align: center; }
-  .pagination > div { width: 100%; }
-  .page-controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
-  .pagination > div:last-child { display: flex; justify-content: center; align-items: center; gap: 10px; }
+  .pagination { flex-direction: column; align-items: stretch; gap: 15px; }
+  .page-controls { justify-content: center; flex-wrap: wrap; }
+  .pagination > div:last-child { justify-content: center; border-top: 1px solid #dee2e6; padding-top: 15px; margin-top: 5px; }
   .repo-header { flex-direction: column; gap: 10px; }
   .repo-score { text-align: left; margin-top: 5px; }
   .repo-info { flex-wrap: wrap; gap: 10px; }
@@ -63,4 +73,8 @@ h1 { text-align: center; margin-bottom: 20px; }
 @media (max-width: 480px) {
   .app { padding: 15px; }
   .repo-item { padding: 15px; }
+  .page-controls { flex-direction: column; gap: 10px; }
+  .page-controls span { order: -1; margin-bottom: 5px; }
+  .pagination select { width: 100%; }
+  .repo-desc {-webkit-line-clamp: 2; }
 }

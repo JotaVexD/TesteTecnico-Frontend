@@ -1,8 +1,14 @@
+// repository.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Repository } from '../models/repository';
-import { environment } from '../../environments/environment';
+
+// Interface local (não precisa de arquivo separado)
+interface SearchResult {
+  totalCount: number;
+  items: Repository[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +18,13 @@ export class RepositoryService {
 
   constructor(private http: HttpClient) {}
 
-  searchRepositories(query: string): Observable<Repository[]> {
-    return this.http.get<Repository[]>(`${this.apiUrl}/Search?query=${query}&page=1&perPage=100`);
+  searchRepositories(query: string, page: number = 1, perPage: number = 10): Observable<SearchResult> {
+    return this.http.get<SearchResult>(
+      `${this.apiUrl}/Search?query=${encodeURIComponent(query)}&page=${page}&perPage=${perPage}`
+    );
   }
-
   toggleFavorite(repositoryId: number): Observable<Repository> {
-    const body = { repositoryId }; // ← corpo com repositoryId
+    const body = { repositoryId };
     return this.http.post<Repository>(`${this.apiUrl}/ToggleFavorite`, body);
   }
 
