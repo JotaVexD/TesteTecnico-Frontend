@@ -19,21 +19,6 @@ npm start
 3. Acesse no navegador
   - http://localhost:4200
 
-## Configuração
-Este projeto usa um **proxy** para conectar com o backend. A URL do backend é configurada em **UM único lugar**:
-
-### Para Desenvolvimento (localhost):
-1. Edite o arquivo: `proxy.conf.json`
-2. Altere a propriedade `target`:
-```json
-{
-  "/api": {
-    "target": "http://localhost:5001", 
-    "secure": false
-  }
-}
-```
-
 ## Comandos Úteis
 ```bash
 # Desenvolvimento
