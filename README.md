@@ -2,7 +2,6 @@
 
 ### Pré-requisitos
 - Node.js 18+
-- Angular CLI
 
 ## Passos para Executar
 1. Clone o repositório ou baixe os arquivos
@@ -18,14 +17,6 @@ npm start
 
 3. Acesse no navegador
   - http://localhost:4200
-
-## Configuração
-Certifique-se que o backend está rodando e atualize a URL se necessário:
-
-Em src/app/services/repository.service.ts
-```
-private apiUrl = 'http://localhost:5000/api/Repositories';
-```
 
 ## Comandos Úteis
 ```bash
