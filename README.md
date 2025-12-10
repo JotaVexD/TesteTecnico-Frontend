@@ -20,12 +20,18 @@ npm start
   - http://localhost:4200
 
 ## Configuração
-Certifique-se que o backend está rodando e atualize a URL se necessário:
+Este projeto usa um **proxy** para conectar com o backend. A URL do backend é configurada em **UM único lugar**:
 
-Em src/app/services/repository.service.ts
-```
-private apiUrl = 'http://localhost:5000/api/Repositories';
-```
+### Para Desenvolvimento (localhost):
+1. Edite o arquivo: `proxy.conf.json`
+2. Altere a propriedade `target`:
+```json
+{
+  "/api": {
+    "target": "http://localhost:5001",  // ← ALTERE AQUI
+    "secure": false
+  }
+}
 
 ## Comandos Úteis
 ```bash
