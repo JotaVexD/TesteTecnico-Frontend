@@ -32,6 +32,7 @@ Este projeto usa um **proxy** para conectar com o backend. A URL do backend é c
     "secure": false
   }
 }
+```
 
 ## Comandos Úteis
 ```bash
