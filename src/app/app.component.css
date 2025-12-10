@@ -1,0 +1,66 @@
+/* Estilos Básicos */
+.app { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { text-align: center; margin-bottom: 20px; }
+
+/* Tabs */
+.tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid #ddd; }
+.tabs button { flex: 1; padding: 12px; background: none; border: none; cursor: pointer; font-size: 14px; }
+.tabs button.active { border-bottom: 2px solid #007bff; color: #007bff; font-weight: 600; }
+
+/* Busca */
+.search-box { display: flex; gap: 10px; margin-bottom: 20px; }
+.search-box input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+.search-box button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+.search-box button:disabled { background: #ccc; cursor: not-allowed; }
+
+/* Paginação */
+.pagination { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #f8f9fa; margin: 15px 0; border-radius: 4px; }
+.page-controls button { padding: 5px 15px; margin: 0 5px; border: 1px solid #ddd; background: white; cursor: pointer; }
+.page-controls button:disabled { color: #ccc; cursor: not-allowed; }
+
+/* Lista de Repositórios */
+.repo-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.repo-item { position: relative; padding-left: 40px; }
+.repo-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.repo-title { color: #0366d6; text-decoration: none; font-weight: 600; font-size: 16px; }
+.repo-title:hover { text-decoration: underline; }
+.fav-btn { padding: 6px 12px; border: 1px solid #ddd; background: #fafbfc; cursor: pointer; border-radius: 4px; font-size: 13px; }
+.fav-btn.favorite { border-color: #0366d6; color: #0366d6; background: #f1f8ff; }
+.fav-btn.remove { color: #cb2431; border-color: #cb2431; background: #ffeef0; }
+.repo-desc { margin: 10px 0; color: #586069; line-height: 1.4; }
+.repo-info { display: flex; gap: 15px; color: #586069; font-size: 13px; margin-top: 10px; }
+
+/* Estados */
+.loading, .empty, .message { padding: 15px; text-align: center; border-radius: 4px; margin: 15px 0; }
+.loading { background: #e7f3ff; color: #0066cc; }
+.empty { background: #f6f8fa; color: #6a737d; }
+.message { background: #dcffe4; color: #155724; }
+.message.error { background: #ffdce0; color: #86181d; }
+
+/* Rank */
+.rank { position: absolute; top: 15px; left: 15px; color: #666; font-weight: bold; font-size: 14px; }
+
+/* Score */
+.is-favorite { color: #007bff; margin-left: 5px;font-weight: bold;}
+.repo-score { text-align: right; }
+.score-value { font-size: 18px; font-weight: 600; color: #24292e; }
+.score-label { font-size: 11px; color: #6a737d; text-transform: uppercase; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .tabs { flex-direction: column; }
+  .tabs button { width: 100%; text-align: left; border-bottom: 1px solid #eee; }
+  .search-box { flex-direction: column; }
+  .pagination { flex-direction: column; gap: 10px; text-align: center; }
+  .pagination > div { width: 100%; }
+  .page-controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+  .pagination > div:last-child { display: flex; justify-content: center; align-items: center; gap: 10px; }
+  .repo-header { flex-direction: column; gap: 10px; }
+  .repo-score { text-align: left; margin-top: 5px; }
+  .repo-info { flex-wrap: wrap; gap: 10px; }
+}
+
+@media (max-width: 480px) {
+  .app { padding: 15px; }
+  .repo-item { padding: 15px; }
+}

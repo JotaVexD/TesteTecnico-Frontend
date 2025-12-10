@@ -1,0 +1,274 @@
+<div class="app">
+  <h1>Teste Técnico ABC FITNESS</h1>
+  
+  <div class="tabs">
+    <button (click)="backToSearch()" [class.active]="viewMode === 'search'" type="button">
+      Buscar
+    </button>
+    <button (click)="loadFavorites()" [class.active]="viewMode === 'favorites'" type="button">
+      Favoritos ({{favorites.length}})
+    </button>
+    <button (click)="loadRelevant()" [class.active]="viewMode === 'relevant'" type="button">
+      Relevantes
+    </button>
+  </div>
+
+  @if (viewMode === 'search') {
+    <div>
+      <div class="search-box">
+        <input 
+          [(ngModel)]="searchQuery" 
+          placeholder="Buscar repositórios..."
+          (keyup.enter)="onSearch()"
+        />
+        <button (click)="onSearch()" [disabled]="loading || !searchQuery.trim()" type="button">
+          @if (loading) {
+            Buscando...
+          } @else {
+            Buscar
+          }
+        </button>
+      </div>
+
+      @if (loading && repositories.length === 0) {
+        <div class="loading">
+          Buscando repositórios...
+        </div>
+      }
+
+      @if (repositories.length > 0) {
+        <div class="pagination">
+          <div class="page-controls">
+            <button (click)="prevPage()" [disabled]="searchCurrentPage === 1" type="button">‹</button>
+            <span>Página {{searchCurrentPage}} de {{totalSearchPages}}</span>
+            <button (click)="nextPage()" [disabled]="!hasNextSearchPage" type="button">›</button>
+          </div>
+          <div>
+            <label>Mostrar:</label>
+            <select title="selectPages" [(ngModel)]="searchItemsPerPage">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+        </div>
+      }
+
+      @if (repositories.length > 0) {
+        <div class="repo-list">
+          @for (repo of displayedSearchRepositories; track repo.id) {
+            <div class="repo-item">
+              <div class="repo-header">
+                <a [href]="repo.htmlUrl" target="_blank" class="repo-title">
+                  {{repo.fullName}}
+                </a>
+              </div>
+              
+              <button 
+                (click)="toggleFavorite(repo)" 
+                [class.favorite]="repo.isFavorite"
+                class="fav-btn"
+                type="button"
+              >
+                @if (repo.isFavorite) {
+                  ★ Favorito
+                } @else {
+                  ☆ Favoritar
+                }
+              </button>
+              
+              <p class="repo-desc">{{repo.description || 'Sem descrição'}}</p>
+              <div class="repo-info">
+                <span>Stars {{repo.stargazersCount}}</span>
+                <span>Forks {{repo.forksCount}}</span>
+                <span>Watchers {{repo.watchersCount}}</span>
+                @if (repo.language) {
+                  <span>{{repo.language}}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      @if (repositories.length === 0 && !loading && searchQuery) {
+        <div class="empty">
+          Nenhum resultado para "{{searchQuery}}"
+        </div>
+      }
+    </div>
+  }
+
+  @if (viewMode === 'favorites') {
+    <div>
+      <div class="search-box">
+        <button (click)="loadFavorites()" [disabled]="loading" type="button">
+          @if (loading) {
+            Atualizando...
+          } @else {
+            Atualizar Lista
+          }
+        </button>
+      </div>
+
+      @if (loading && favorites.length === 0) {
+        <div class="loading">
+          Carregando favoritos...
+        </div>
+      }
+
+      @if (!loading && favorites.length === 0) {
+        <div class="empty">
+          Nenhum favorito ainda. Use ☆ para adicionar.
+        </div>
+      }
+
+      @if (favorites.length > 0) {
+        <div class="pagination">
+          <div class="page-controls">
+            <button (click)="prevPage()" [disabled]="favoritesCurrentPage === 1" type="button">‹</button>
+            <span>Página {{favoritesCurrentPage}} de {{totalFavoritesPages}}</span>
+            <button (click)="nextPage()" [disabled]="!hasNextFavoritesPage" type="button">›</button>
+          </div>
+          <div>
+            <label>Mostrar:</label>
+            <select title="selectPages" [(ngModel)]="favoritesItemsPerPage">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="repo-list">
+          @for (repo of displayedFavorites; track repo.id; let i = $index) {
+            <div class="repo-item">
+              <div class="rank">
+                #{{i + 1 + ((favoritesCurrentPage - 1) * favoritesItemsPerPage)}}
+              </div>
+              
+              <div class="repo-header">
+                <a [href]="repo.htmlUrl" target="_blank" class="repo-title">
+                  {{repo.fullName}}
+                </a>
+                <div class="repo-score">
+                  <span class="score-value">{{repo.relevanceScore}}</span>
+                  <span class="score-label"> pontos</span>
+                </div>
+              </div>
+              
+              <button (click)="toggleFavorite(repo)" class="fav-btn remove" type="button">
+                ✕ Remover Favorito
+              </button>
+              
+              <p class="repo-desc">{{repo.description || 'Sem descrição'}}</p>
+              <div class="repo-info">
+                <span>Stars {{repo.stargazersCount}}</span>
+                <span>Forks {{repo.forksCount}}</span>
+                <span>Watchers {{repo.watchersCount}}</span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (viewMode === 'relevant') {
+    <div>
+      <div class="search-box">
+        <button (click)="loadRelevant()" [disabled]="loading" type="button">
+          @if (loading) {
+            Carregando...
+          } @else {
+            Atualizar Lista
+          }
+        </button>
+      </div>
+
+      @if (loading && allRelevantRepositories.length === 0) {
+        <div class="loading">
+          Carregando repositórios relevantes...
+        </div>
+      }
+
+      @if (!loading && allRelevantRepositories.length === 0) {
+        <div class="empty">
+          Nenhum repositório relevante. Faça uma busca primeiro!
+        </div>
+      }
+
+      @if (allRelevantRepositories.length > 0) {
+        <div class="pagination">
+          <div class="page-controls">
+            <button (click)="prevPage()" [disabled]="relevantCurrentPage === 1" type="button">‹</button>
+            <span>Página {{relevantCurrentPage}} de {{totalRelevantPages}}</span>
+            <button (click)="nextPage()" [disabled]="!hasNextRelevantPage" type="button">›</button>
+          </div>
+          <div>
+            <label>Mostrar:</label>
+            <select title="selectPages" [(ngModel)]="relevantItemsPerPage">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="repo-list">
+          @for (repo of displayedRelevantRepositories; track repo.id; let i = $index) {
+            <div class="repo-item">
+              <div class="rank">
+                #{{i + 1 + ((relevantCurrentPage - 1) * relevantItemsPerPage)}}
+              </div>
+              
+              <div class="repo-header">
+                <div>
+                  <a [href]="repo.htmlUrl" target="_blank" class="repo-title">
+                    {{repo.fullName}}
+                    @if (repo.isFavorite) {
+                      <span class="is-favorite">★</span>
+                    }
+                  </a>
+                </div>
+                <div class="repo-score">
+                  <span class="score-value">{{repo.relevanceScore}}</span>
+                  <span class="score-label"> pontos</span>
+                </div>
+              </div>
+              
+              <button 
+                (click)="toggleFavorite(repo)" 
+                [class.favorite]="repo.isFavorite"
+                class="fav-btn"
+                type="button"
+              >
+                @if (repo.isFavorite) {
+                  ★ Remover Favorito
+                } @else {
+                  ☆ Favoritar
+                }
+              </button>
+              
+              <p class="repo-desc">{{repo.description || 'Sem descrição'}}</p>
+              <div class="repo-info">
+                <span>Stars: {{repo.stargazersCount | number}}</span>
+                <span>Forks: {{repo.forksCount | number}}</span>
+                <span>Watchers: {{repo.watchersCount | number}}</span>
+                @if (repo.language) {
+                  <span>{{repo.language}}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (message) {
+    <div class="message" [class.error]="message.includes('Erro')">
+      {{message}}
+    </div>
+  }
+</div>
