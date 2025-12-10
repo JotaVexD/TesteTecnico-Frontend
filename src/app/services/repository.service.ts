@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class RepositoryService {
-  private apiUrl = environment.apiUrl +'/api/Repositories';
+  private apiUrl = '/api/Repositories';
 
   constructor(private http: HttpClient) {}
 
