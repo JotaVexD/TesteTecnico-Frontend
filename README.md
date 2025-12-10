@@ -2,7 +2,6 @@
 
 ### Pré-requisitos
 - Node.js 18+
-- Angular CLI
 
 ## Passos para Executar
 1. Clone o repositório ou baixe os arquivos
